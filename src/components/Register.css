@@ -1,0 +1,49 @@
+body {
+    background-color: #121212; /* or any color that matches your black box */
+}
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #121212;
+}
+
+.register-form {
+    width: 300px;
+    padding: 20px;
+    background-color: #181818;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+.register-form h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #1DB954;
+}
+
+.register-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #303030;
+    border-radius: 4px;
+    background-color: #303030;
+    color: #fff;
+}
+
+.register-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #1DB954;
+    color: white;
+    cursor: pointer;
+}
+
+.register-form button:hover {
+    background-color: #1ed760;
+}

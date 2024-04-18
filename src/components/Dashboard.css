@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+div {
+    margin: 0 auto;
+    width: 80%;
+}
+
+p {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+}
