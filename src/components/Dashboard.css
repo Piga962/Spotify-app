@@ -1,22 +1,80 @@
-body {
-    font-family: Arial, sans-serif;
+/* styles.css */
+
+body{
     background-color: white;
 }
 
-h1 {
-    color: #333;
-    text-align: center;
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: #ccc;
 }
 
-div {
-    margin: 0 auto;
-    width: 80%;
-}
-
-p {
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.container input[type='text'] {
     padding: 10px;
-    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+}
+
+.container input[type='text']:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.input{
+    background-color: #f0f0f0;    
+}
+
+.button{
+    background-color: #d0d0d0;
+}
+
+.container select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+}
+
+.container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+.container button:hover {
+    background-color: #0056b3;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.result-item img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.result-item h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.result-item p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
 }

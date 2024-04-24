@@ -1,13 +1,9 @@
-body {
-    background-color: #121212; /* or any color that matches your black box */
-}
 
 .register-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #121212;
 }
 
 .register-form {
