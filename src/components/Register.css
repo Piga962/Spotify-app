@@ -1,4 +1,11 @@
 
+body{
+    background-color: #121212;
+    color: white;
+    font-family: Arial, sans-serif;
+
+}
+
 .register-container {
     display: flex;
     justify-content: center;

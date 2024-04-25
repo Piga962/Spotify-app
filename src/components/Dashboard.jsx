@@ -17,20 +17,7 @@ const Dashboard = () => {
     ].join(' ');
 
     useEffect(() => {
-        // Replace these with your actual client ID, redirect URI, and scopes
-        
-        const clientId = "ad8dcf6615b64d11acd02379b00cc50a";
-        const redirectUri = "http://localhost:5173/dashboard";
-        const scopes = [
-            'user-read-private', 
-            'user-read-email', 
-            'user-read-recently-played', 
-            'user-modify-playback-state'
-        ].join(' ');
-        
-        const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&response_type=token&show_dialog=true`;
-        
-        // Check if there's an access token in the URL
+        let token = localStorage.getItem("token-recent");
         const hash = window.location.hash
             .substring(1)
             .split('&')
@@ -41,46 +28,40 @@ const Dashboard = () => {
             }, {});
         window.location.hash = "";
 
-        let token = localStorage.getItem("token");
-
         if (!token && hash.access_token) {
-            localStorage.setItem('token', hash.access_token);
+            localStorage.setItem('token-recent', hash.access_token);
             token = hash.access_token;
         }
 
-        // If there's no access token, redirect to the Spotify authorization page
-        if(!token) {
-            if (!hash.access_token) {
-                window.location.href = authUrl;
-            } else {
-                fetchData(token);
-                localStorage.setItem('token', hash.access_token);
-                token = hash.access_token;
-            }
+        // Redirect to Spotify auth page if there's no token
+        if (!token && !hash.access_token) {
+            const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&response_type=token&show_dialog=true`;
+            window.location.href = authUrl;
+            return;
         }
-            // If there's an access token, use it to fetch the recently played tracks
-            fetchSpotifyApi(
-                "https://api.spotify.com/v1/me/player/recently-played   ",
-                "GET",
-                null,
-                "application/json",
-                `Bearer ${token}`
-            )
-            .then(data => setRecentTracks(data.items))
-            .catch(error => console.error(error));
+
+        // Fetch the last five recently played tracks
+        const fetchRecentTracks = async () => {
+            const url = "https://api.spotify.com/v1/me/player/recently-played?limit=20";
+            try {
+                const data = await fetchSpotifyApi(url, "GET", null, "application/json", `Bearer ${token}`);
+                setRecentTracks(data.items); // Ensure you handle pagination if needed
+            } catch (error) {
+                console.error('Error fetching recent tracks', error);
+            }
+        };
+        console.log(fetchRecentTracks());
+        if (token) {
+            fetchRecentTracks();
+        }
     }, []);
-
-
 
     const [recentTracks, setRecentTracks] = useState([]);
     const [userData, setUserData] = useState(null);
-        
     const [type, setType] = useState('');
     const [results, setResults] = useState([]);
     const [option, setOption] = useState('');
-
     const types = ["album", "artist", "playlist", "track", "show", "episode", "audiobook"];
-
     const [form, setForm] = useState({
         search: '',
         artist: '',
@@ -192,68 +173,57 @@ const Dashboard = () => {
 
         <div className="container">
             <div>
-                <h1>Recently Played Tracks</h1>
-
-                <section id="profile">
-                    <h2>Logged in as <span id="displayName"></span></h2>
-                    <span id="avatar"></span>
-                    <ul>
-                        <li>User ID: <span id="id"></span></li>
-                        <li>Email: <span id="email"></span></li>
-                        <li>Spotify URI: <a id="uri" href="#"></a></li>
-                        <li>Link: <a id="url" href="#"></a></li>
-                        <li>Profile Image: <span id="imgUrl"></span></li>
-                    </ul>
-                </section>
-
-                {recentTracks.map((track,index) => (
-                    <p key={index}>{track.track.name} by {track.track.artists[0].name}</p>
-                ))}
-        </div>
-
-            <div>
-                <button onClick={handleGetToken}>GetToken</button>
-                <button onClick={getDeviceId}>GetDeviceId</button>
+                <h1>Right foot creep oh walking with the heater</h1>
             </div>
 
-            <input className="input" placeholder='Search for music' type='text' name='search' value ={form.search} onChange={handleChange}/>
-
-            <div>
-                <p>Types</p>
-                <select name="types" onChange={handleSelectChange}>
-                    <option value="valor1">Valor 1</option>
-                    {types.map((item) => (
-                        <option key={item} value={item}>
-                            {item}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
-            <div>
+            <div className="dashboard-container">
+                <div className="get-buttons">
+                    <button className="button" onClick={handleGetToken}>GetToken</button>
+                    <button className="button" onClick={getDeviceId}>GetDeviceId</button>
+                </div>
+                <input className="input" placeholder='Search for music' type='text' name='search' value ={form.search} onChange={handleChange}/>
                 <input className="input" placeholder='Artist' type='text' name='artist' value={form.artist} onChange={handleChange}/>
-            </div>
-
-            <div>
-                <button className="button" onClick={handleSearch}>Search</button>
-            </div>
-
-            <div>
-                {results.length > 0 && (
-                    <div>
-                        {results.map((item, idx) => (
-                            <div className="result-item" key = {item.id}>
-                                <img src={item.album.images[0].url}/>
-                                {idx +1+' ' + item.name}
-                                <button className="button" onClick={() => handlePlayMusic(item)}>
-                                    Play
-                                </button>
+                <div className="searches">
+                    <select className="type" name="types" onChange={handleSelectChange}>
+                        <option value="valor1">Type of search</option>
+                        {types.map((item) => (
+                            <option key={item} value={item}>
+                                {item}
+                            </option>
+                        ))}
+                    </select>
+                    <div className="search-button">
+                        <button className="button" onClick={handleSearch}>Search</button>
+                    </div>
+                </div>
+                <div className="songs">
+                    <div className="search-results">
+                        {results.length > 0 && (
+                            <div>
+                                {results.map((item, idx) => (
+                                    <div className="result-item" key = {item.id}>
+                                        <img src={item.album.images[0].url}/>
+                                        {idx +1+' ' + item.name}
+                                        <button className="button" onClick={() => handlePlayMusic(item)}>
+                                            Play
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <div className="recent-tracks-item">
+                        {recentTracks.map((track,index) => (
+                            <div className="result-item" key = {track.id}>
+                                <img src={track.track.album.images[0].url}/>
+                                <p key={index}>{track.track.name} by {track.track.artists[0].name}</p>
+                                <button className="button" onClick={() => handlePlayMusic(track.track)}>
+                                            Play
+                                        </button>
                             </div>
                         ))}
                     </div>
-                )
-
-                }
+                </div>
             </div>
             
         </div>

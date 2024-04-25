@@ -1,65 +1,92 @@
-/* styles.css */
+/* Dashboard.css */
+
+h1{
+    color: white;
+}
 
 body{
-    background-color: white;
+    background-color: black;
 }
 
-.container {
+.dashboard-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    background-color: #ccc;
+    padding: 20px;
+    background-color: black; /* Cambia esto a tu color preferido */
 }
 
-.container input[type='text'] {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.input {
     width: 100%;
-    max-width: 300px;
-    box-sizing: border-box;
-}
-
-.container input[type='text']:focus {
-    border-color: #007BFF;
-    outline: none;
-}
-
-.input{
-    background-color: #f0f0f0;    
-}
-
-.button{
-    background-color: #d0d0d0;
-}
-
-.container select {
     padding: 10px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 300px;
-    box-sizing: border-box;
+    border-radius: 4px;
+    color: green;
+    background-color: black;
 }
 
-.container button {
+.type{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: white;
+    background-color: black;
+
+}
+
+.get-buttons{
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.search-button{
+    padding: 10px;
+}
+
+.button {
     padding: 10px 20px;
     border: none;
-    border-radius: 5px;
-    background-color: #007BFF;
+    border-radius: 4px;
+    background-color: #1ed760; /* Cambia esto a tu color preferido */
     color: white;
     cursor: pointer;
 }
 
-.container button:hover {
-    background-color: #0056b3;
+.button:hover {
+    background-color: #1db954;
+}
+
+.searches{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.songs{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    justify-content: space-between;
 }
 
 .result-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    padding: 10px;
+    color: white;
+    border: solid 1px #282828;
+    border-radius: 4px ;
+    background-color: rgb(22, 21, 21);
+    box-shadow: 0 2px 4px rgba(255, 0, 0, 0.1);
+}
+
+.result-item:hover{
+    background: rgb(65, 65, 65);
 }
 
 .result-item img {
