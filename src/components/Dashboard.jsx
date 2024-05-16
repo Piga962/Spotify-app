@@ -17,7 +17,7 @@ const Dashboard = () => {
     ].join(' ');
 
     useEffect(() => {
-        let token = localStorage.getItem("token-recent");
+        let token_recent = localStorage.getItem("token-recent");
         const hash = window.location.hash
             .substring(1)
             .split('&')
@@ -28,13 +28,13 @@ const Dashboard = () => {
             }, {});
         window.location.hash = "";
 
-        if (!token && hash.access_token) {
+        if (!token_recent && hash.access_token) {
             localStorage.setItem('token-recent', hash.access_token);
-            token = hash.access_token;
+            token_recent = hash.access_token;
         }
 
         // Redirect to Spotify auth page if there's no token
-        if (!token && !hash.access_token) {
+        if (!token_recent && !hash.access_token) {
             const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&response_type=token&show_dialog=true`;
             window.location.href = authUrl;
             return;
@@ -44,14 +44,14 @@ const Dashboard = () => {
         const fetchRecentTracks = async () => {
             const url = "https://api.spotify.com/v1/me/player/recently-played?limit=20";
             try {
-                const data = await fetchSpotifyApi(url, "GET", null, "application/json", `Bearer ${token}`);
+                const data = await fetchSpotifyApi(url, "GET", null, "application/json", `Bearer ${token_recent}`);
                 setRecentTracks(data.items); // Ensure you handle pagination if needed
             } catch (error) {
                 console.error('Error fetching recent tracks', error);
             }
         };
         console.log(fetchRecentTracks());
-        if (token) {
+        if (token_recent) {
             fetchRecentTracks();
         }
     }, []);
